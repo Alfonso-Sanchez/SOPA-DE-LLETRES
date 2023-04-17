@@ -10,8 +10,12 @@
 
 int main() {
 
-    sopa_t sopa;    // La sopa de lletres
-
+    sopa_t sopa; 
+    unsigned int a;
+       // La sopa de lletres
+    printf("Digues la dimensio de la Sopa de LLetres");
+    scanf("%d",a);
+    sopa.dim = a;
     genera_sopa(&sopa);     // La generem (exemple)
 
     mostra_sopa(&sopa);      // La mostrem per pantalla
