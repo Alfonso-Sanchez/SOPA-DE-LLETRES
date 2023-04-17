@@ -15,6 +15,6 @@ int main() {
     genera_sopa(&sopa);     // La generem (exemple)
 
     mostra_sopa(&sopa);      // La mostrem per pantalla
-
+    printf("HOLA");
     return 0;
 }
