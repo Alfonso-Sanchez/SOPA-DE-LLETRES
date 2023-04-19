@@ -47,14 +47,14 @@ int main() {
                 scanf("%d", &col);
                 printf("Introdueix direcció: \n");
                 scanf("%d", &dir);
-                fflush(stdin);
+                fflush(stdin);  // Evitem que es que de malament el fgets i scanf.
                if (!comprobar_sopa(fil, col, dir, &sopa))
                {
                 printf("No es correcte! \n");
                }
                else
                {
-                actualitzar_sopa(&sopa);
+                actualitzar_sopa(fil, col, dir, &sopa);
                } 
             }
         } while (!rendicio);

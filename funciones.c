@@ -17,8 +17,8 @@ void saludar()
 void mostra_menu_joc()
 {
     printf("*************************** INSTRUCCIONS ********************************\n");
-    printf("Indica la fila i columna on es troba la paraula, després la direcció 1 (→) -1 (←) 2 (↓) -2 (↑).\n");
-    printf("Si vols rendirte escriu: RENDICIO");
+    printf("Per jugar tens que indicar, la fila, la columna i la direcció 1 (→) -1 (←) 2 (↓) -2 (↑).\n");
+    printf("Si vols rendirte escriu \"Rendicio\" en la següent pregunta!");
     printf("***********************************************************\n");
 }
 
@@ -30,7 +30,7 @@ bool llegir_fitxer(sopa_t *s)
 }
 
 /*Aquesta funció llegeix les paraules que estan dins de la sopa i les mostra al usuari*/
-void mostrar_paraules (sopa_t *s)
+void mostra_paraules (sopa_t *s)
 {
    /*Lo que sea*/
 }
@@ -47,6 +47,13 @@ bool comprobar_sopa(int fil, int col, int dir, sopa_t *s)
 bool comprobar_rendicio(char rend_arr[9])
 {
     /*Lo que sea*/
+}
+
+
+/*Actualitza amb l'encert*/
+void actualitzar_sopa(int fil, int col, int dir, sopa_t *s);
+{
+    /*Lo quie sea*/
 }
 
 

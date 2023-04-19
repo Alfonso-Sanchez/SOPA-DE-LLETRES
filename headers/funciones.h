@@ -75,3 +75,12 @@ bool comprobar_sopa(int fil, int col, int dir, sopa_t *s);
 *
 */
 bool comprobar_rendicio(char rend_arr[9]);
+
+/** @brief Actualitza la sopa amb l'encert.
+*
+* @param fil fila on comença la paraula.
+* @param col col on comença la paraula.
+* @param s  Estructura sopa_t. 
+*
+*/
+void actualitzar_sopa(int fil, int col, int dir, sopa_t *s);
