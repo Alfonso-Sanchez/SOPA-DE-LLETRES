@@ -4,6 +4,52 @@
 #include <string.h>
 #include "headers/funciones.h"
 
+/*Mostra el missatge de benvingua al joc*/
+void saludar()
+{
+    printf("***********************************************************\n");
+    printf("Us donem la benvinguda al joc de la sopa de lletres!\n");
+    printf("Autors: Joan Arnau, Alex ... , Alfonso Sanchez\n");
+    printf("***********************************************************\n");
+}
+
+/*Mostra el missatge dins del joc amb instruccions de com jugar*/
+void mostra_menu_joc()
+{
+    printf("*************************** INSTRUCCIONS ********************************\n");
+    printf("Indica la fila i columna on es troba la paraula, després la direcció 1 (→) -1 (←) 2 (↓) -2 (↑).\n");
+    printf("Si vols rendirte escriu: RENDICIO");
+    printf("***********************************************************\n");
+}
+
+/* Aquesta funcio llegeix les paraules dun fitzer i las carrega dins de paraula_t dins de sopa_t*/
+bool llegir_fitxer(sopa_t *s)
+{
+    /*Lo que sea*/
+    
+}
+
+/*Aquesta funció llegeix les paraules que estan dins de la sopa i les mostra al usuari*/
+void mostrar_paraules (sopa_t *s)
+{
+   /*Lo que sea*/
+}
+
+
+/*Comproba la sopa de lletres amb les dades introduides per l'usuari, si la paraula es correcta*/
+bool comprobar_sopa(int fil, int col, int dir, sopa_t *s)
+{
+    /*Lo que sea*/
+}
+
+
+/*Comproba si la persona se ha rendit o no*/
+bool comprobar_rendicio(char rend_arr[9])
+{
+    /*Lo que sea*/
+}
+
+
 /* Aquesta funcio genera la sopa de lletres, a partir del fitxer i altres parametres */
 /* que ja decidireu. En aquest cas només l'emplena amb una SOPA d'EXEMPLE, es a dir */
 /* que haureu de fer la vostra pròpia. */
