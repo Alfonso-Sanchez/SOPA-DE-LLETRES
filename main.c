@@ -31,6 +31,7 @@ int main() {
             mostra_sopa(&sopa);      // La mostrem per pantalla.
             mostra_paraules(&sopa);     // Mostrem les paraules ordenades alfabeticament per pantalla.
             mostra_menu_joc();  // Mostrem instruccions joc.
+            printf("Encerts: \n", sopa.n_encerts);
             printf("Has trobat una paraula? Y / RENDICIO\n");
             fgets (rendicio_arr, 9, stdin);
             fflush(stdin); // Evitem que es que de malament el fgets i scanf. 
