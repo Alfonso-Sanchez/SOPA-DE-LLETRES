@@ -12,7 +12,7 @@ int main() {
 
     sopa_t sopa; 
     joc_t joc;
-    int mida_sopa, fil, col, dir;
+    int mida_sopa;
     char rendicio_arr[9];
     bool rendicio, guanya;
 
