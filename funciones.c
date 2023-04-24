@@ -25,8 +25,32 @@ void mostra_menu_joc()
 /* Aquesta funcio llegeix les paraules dun fitzer i las carrega dins de paraula_t dins de sopa_t*/
 bool llegir_fitxer(sopa_t *s)
 {
-    
-    
+    FILE *fitxer;
+    char lletra;
+    char paraula [MAX_LLETRES + 1];
+    bool llegir_fitxer = true;
+    int i,j;
+
+    if ((fitxer = fopen("PARAULES.txt", "r")) == NULL)
+    {
+        llegir_fitxer = false;
+    }
+    else
+    {
+        j = 0;
+        while (!feof(fitxer))
+        {
+            i = 0;
+            lletra = fgetc(fitxer);
+            while (lletra != '\t')
+            {
+                s->par[j].ll[i] = lletra;
+                i++; 
+            }
+            j ++;
+        }
+    }
+    return (llegir_fitxer);
 }
 
 /*Mostra la solcio de la sopa*/
