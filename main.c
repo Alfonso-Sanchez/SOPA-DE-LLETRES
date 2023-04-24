@@ -11,9 +11,10 @@
 int main() {
 
     sopa_t sopa; 
+    joc_t joc;
     int mida_sopa, fil, col, dir;
     char rendicio_arr[9];
-    bool rendicio;
+    bool rendicio, guanya;
 
     saludar(); // Donem la benvingua al joc.
     if(!llegir_fitxer(&sopa))
@@ -22,14 +23,15 @@ int main() {
     }
     else
     {
+        ordenar_paraules(&sopa);
         printf("Indica la mida de la sopa de lletres:\n");
         scanf("%d", &mida_sopa); 
         sopa.dim = mida_sopa;   // Guardem la mida dins del struct sopa.
-        genera_sopa(&sopa);       // La generem.
+        genera_sopa(&sopa);       
         do
         {
-            mostra_sopa(&sopa);      // La mostrem per pantalla.
-            mostra_paraules(&sopa);     // Mostrem les paraules ordenades alfabeticament per pantalla.
+            mostra_sopa(&sopa);      
+            mostra_paraules(&sopa);     
             mostra_menu_joc();  // Mostrem instruccions joc.
             printf("Encerts: %d\n", sopa.n_encerts);
             printf("Has trobat una paraula? Y / RENDICIO\n");
@@ -41,23 +43,22 @@ int main() {
             }
             else
             {
-                printf("Introdueix fila: \n");
-                scanf("%d", &fil);
-                printf("Introdueix col: \n");
-                scanf("%d", &col);
-                printf("Introdueix direcció: \n");
-                scanf("%d", &dir);
-                fflush(stdin);  // Evitem que es que de malament el fgets i scanf.
-               if (!comprobar_sopa(fil, col, dir, &sopa))
-               {
-                printf("No es correcte! \n");
-               }
-               else
-               {
-                actualitzar_sopa(fil, col, dir, &sopa);
-               } 
+                preguntar_jugada(&joc);
+                if (!comprobar_sopa(joc, &sopa))
+                {
+                    printf("No es correcte! \n");
+                }
+                else
+                {
+                    actualitzar_sopa(&joc, &sopa);
+                    if (sopa.n_encerts == sopa.n_par)
+                    {
+                        guanya = true;
+                    }
+                }
+                
             }
-        } while (!rendicio);
+        } while ((!rendicio) && (!guanya));
     }
     return 0;
 }

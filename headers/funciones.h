@@ -20,7 +20,21 @@ typedef struct
     paraula_t par[MAX_PARAULES];    // Les paraules
     int n_par;  // Nombre de paraules
     int n_encerts;    // Nombre de paraules encertades
+    bool guanya;
 } sopa_t;
+
+typedef struct 
+{
+   int fila;
+   int columna;
+   int direccio; 
+} joc_t;
+
+/** @brief Pregunta jugda i la guarda en el struct joc.
+*
+* @param j struct joc.
+*/
+void preguntar_jugada(joc_t *j);
 
 /** @brief Genera la sopa de lletres a partir del tamany indicat i les paraules ja carregades.
 * @param sopa Estructura sopa_t
@@ -60,13 +74,20 @@ void mostra_menu_joc();
 */
 bool llegir_fitxer(sopa_t *s);
 
+/** @brief Ordena les paraules de la sopa.
+*
+* @param sopa Struct sopa_t.
+*
+*/
+void ordenar_paraules (sopa_t *s);
+
 /** @brief Comproba la sopa de lletres.
 *
 * @param fil Numero fila.
 * @param col Numero columna.
 * @return true = encertat | false = no encertat.
 */
-bool comprobar_sopa(int fil, int col, int dir, sopa_t *s);
+bool comprobar_sopa(joc_t j, sopa_t *s);
 
 /** @brief Comproba si l'usuari se ha rendit o no.
 *
@@ -83,4 +104,4 @@ bool comprobar_rendicio(char rend_arr[9]);
 * @param s  Estructura sopa_t. 
 *
 */
-void actualitzar_sopa(int fil, int col, int dir, sopa_t *s);
+void actualitzar_sopa(joc_t *j, sopa_t *s);

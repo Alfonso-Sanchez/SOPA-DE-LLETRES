@@ -29,6 +29,11 @@ bool llegir_fitxer(sopa_t *s)
     
 }
 
+/*Ordena paraules de la sopa*/
+void ordenar_paraules (sopa_t *s)
+{
+
+}
 /*Aquesta funció llegeix les paraules que estan dins de la sopa i les mostra al usuari*/
 void mostra_paraules (sopa_t *s)
 {
@@ -37,11 +42,22 @@ void mostra_paraules (sopa_t *s)
 
 
 /*Comproba la sopa de lletres amb les dades introduides per l'usuari, si la paraula es correcta*/
-bool comprobar_sopa(int fil, int col, int dir, sopa_t *s)
+bool comprobar_sopa(joc_t j, sopa_t *s)
 {
     /*Lo que sea*/
 }
 
+/*Pregunta les dades al usuari*/
+void preguntar_jugada(joc_t *j)
+{
+    printf("Introdueix fila: \n");
+    scanf("%d", &j->fila);
+    printf("Introdueix col: \n");
+    scanf("%d", &j->columna);
+    printf("Introdueix direcció: \n");
+    scanf("%d", &j->direccio);
+    fflush(stdin);  // Evitem que es que de malament el fgets i scanf.
+}
 
 /*Comproba si la persona se ha rendit o no*/
 bool comprobar_rendicio(char rend_arr[9])
@@ -51,7 +67,7 @@ bool comprobar_rendicio(char rend_arr[9])
 
 
 /*Actualitza amb l'encert*/
-void actualitzar_sopa(int fil, int col, int dir, sopa_t *s);
+void actualitzar_sopa(joc_t *j, sopa_t *s)
 {
     /*Lo quie sea*/
 }
