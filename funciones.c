@@ -18,7 +18,7 @@ void mostra_menu_joc()
 {
     printf("*************************** INSTRUCCIONS ********************************\n");
     printf("Per jugar tens que indicar, la fila, la columna i la direcció 1 (→) -1 (←) 2 (↓) -2 (↑).\n");
-    printf("Si vols rendirte escriu \"Rendicio\" en la següent pregunta!");
+    printf("Si vols rendirte escriu \"RENDICIO\" en la següent pregunta!");
     printf("***********************************************************\n");
 }
 
