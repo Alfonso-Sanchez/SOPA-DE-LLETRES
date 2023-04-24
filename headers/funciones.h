@@ -48,6 +48,13 @@ void genera_sopa(sopa_t *s);
 */
 void mostra_sopa (sopa_t *s);
 
+/** @brief Mostra solucio de la sopa.
+*
+* @param sopa Estructura sopa_t.
+*
+*/
+
+void mostrar_solucio(sopa_t *s);
 /**
  *  @brief Da la benvinguda al jugador.
 */

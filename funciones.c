@@ -25,8 +25,14 @@ void mostra_menu_joc()
 /* Aquesta funcio llegeix les paraules dun fitzer i las carrega dins de paraula_t dins de sopa_t*/
 bool llegir_fitxer(sopa_t *s)
 {
-    /*Lo que sea*/
     
+    
+}
+
+/*Mostra la solcio de la sopa*/
+void mostrar_solucio(sopa_t *s)
+{
+
 }
 
 /*Ordena paraules de la sopa*/
@@ -34,6 +40,7 @@ void ordenar_paraules (sopa_t *s)
 {
 
 }
+
 /*Aquesta funció llegeix les paraules que estan dins de la sopa i les mostra al usuari*/
 void mostra_paraules (sopa_t *s)
 {
@@ -62,7 +69,6 @@ void preguntar_jugada(joc_t *j)
 /*Comproba si la persona se ha rendit o no*/
 bool comprobar_rendicio(char rend_arr[9])
 {
-    /*Lo que sea*/
     bool es_rendeix = true ;
     char rendicio[9] = "RENDICIO";
     int i = 0;

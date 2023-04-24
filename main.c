@@ -59,6 +59,10 @@ int main() {
                 
             }
         } while ((!rendicio) && (!guanya));
+        if (rendicio)
+        {
+            mostrar_solucio(&sopa);
+        }
     }
     return 0;
 }
