@@ -26,10 +26,9 @@ void mostra_menu_joc()
 bool llegir_fitxer(sopa_t *s)
 {
     FILE *fitxer;
-    char lletra;
     char paraula [MAX_LLETRES + 1];
     bool llegir_fitxer = true;
-    int i,j;
+    int i;
 
     if ((fitxer = fopen("PARAULES.txt", "r")) == NULL)
     {
@@ -37,18 +36,14 @@ bool llegir_fitxer(sopa_t *s)
     }
     else
     {
-        j = 0;
+        i = 0;
         while (!feof(fitxer))
         {
-            i = 0;
-            lletra = fgetc(fitxer);
-            while (lletra != '\t')
-            {
-                s->par[j].ll[i] = lletra;
-                i++; 
-            }
-            j ++;
+            fscanf(fitxer, "%s", paraula);
+            strcpy(s->par[i].ll, paraula);
+            i ++;
         }
+        s->n_par = i;
     }
     return (llegir_fitxer);
 }
@@ -98,7 +93,7 @@ bool comprobar_rendicio(char rend_arr[9])
     int i = 0;
     while(es_rendeix && i<=9)
     {
-        if(rend_arr[i] =! rendicio[i])
+        if(rend_arr[i] =! rendicio[i]))
         {
             es_rendeix = false;
         }
