@@ -91,9 +91,9 @@ bool comprobar_rendicio(char rend_arr[9])
     bool es_rendeix = true ;
     char rendicio[9] = "RENDICIO";
     int i = 0;
-    while(es_rendeix && i<=9)
+    while(es_rendeix && i < 9)
     {
-        if(rend_arr[i] =! rendicio[i]))
+        if (rend_arr[i] != rendicio[i])
         {
             es_rendeix = false;
         }
