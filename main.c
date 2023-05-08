@@ -14,7 +14,7 @@ int main() {
     joc_t joc;
     int mida_sopa;
     char rendicio_arr[9];
-    bool rendicio /*guanya*/;
+    bool rendicio;
 
     saludar(); // Donem la benvingua al joc.
     if(!llegir_fitxer(&sopa))
@@ -23,7 +23,7 @@ int main() {
     }
     else
     {
-        /*ordenar_paraules(&sopa);*/
+        ordenar_paraules(&sopa);
         printf("Indica la mida de la sopa de lletres:\n");
         scanf("%d", &mida_sopa);
         fflush(stdin);
@@ -54,12 +54,12 @@ int main() {
                     actualitzar_sopa(&joc, &sopa);
                     if (sopa.n_encerts == sopa.n_par)
                     {
-                        guanya = true;
+                        sopa.guanya = true;
                     }
                 }
                 */
             }
-        } while (!rendicio/* && (!guanya)*/);
+        } while (!rendicio/* && (!sopa.guanya)*/);
         if (rendicio)
         {
             /*mostrar_solucio(&sopa);*/

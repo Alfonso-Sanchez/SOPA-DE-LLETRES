@@ -48,11 +48,33 @@ bool llegir_fitxer(sopa_t *s)
     return (llegir_fitxer);
 }
 
-/*Ordena paraules de la sopa
+/*Ordena paraules de la sopa*/
 void ordenar_paraules (sopa_t *s)
 {
+    //int longitud = sizeof(s->par)/sizeof(s->par[0]);
+    char temporal[MAX_LLETRES + 1];
+    int x, index_actual;
 
-}*/
+    for (x = 0; x < s->n_par; x++)
+    {
+        for (index_actual = 0; index_actual < s->n_par - 1; index_actual++)
+        {
+            int index_seguent_element = index_actual + 1;
+
+            if (strcmp(s->par[index_actual].ll, s->par[index_seguent_element].ll) > 0)
+            {
+                // Desplaçem la cadena actual a la temporal
+                memcpy(temporal, s->par[index_actual].ll, MAX_LLETRES + 1);
+                // Desplaçem al actual el seguent element.
+                memcpy(s->par[index_actual].ll, s->par[index_seguent_element].ll, MAX_LLETRES + 1);
+                // Y en el seguent element, el que habia en el actual, pero esta en el temporal.
+                memcpy(s->par[index_seguent_element].ll, temporal, MAX_LLETRES + 1);
+            }
+        }
+        
+    }
+    
+}
 
 /*Pregunta les dades al usuari*/
 void preguntar_jugada(joc_t *j)
