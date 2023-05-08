@@ -52,14 +52,11 @@ int main() {
                 else
                 {
                     actualitzar_sopa(&joc, &sopa);
-                    if (sopa.n_encerts == sopa.n_par)
-                    {
-                        sopa.guanya = true;
-                    }
+                    comprovar_guanya(&sopa);   
                 }
                 */
             }
-        } while (!rendicio/* && (!sopa.guanya)*/);
+        } while ((!rendicio) && (!sopa.guanya));
         if (rendicio)
         {
             /*mostrar_solucio(&sopa);*/
