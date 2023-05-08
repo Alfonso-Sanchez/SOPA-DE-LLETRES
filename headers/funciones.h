@@ -112,3 +112,11 @@ bool comprobar_rendicio(char rend_arr[9]);
 *
 */
 void actualitzar_sopa(joc_t *j, sopa_t *s);
+
+/** @brief Comrprovem si ha guanyat
+ * 
+ * @param s estructura sopa_t
+ * 
+*/
+
+void comprova_guanya(sopa_t *s);
