@@ -48,30 +48,11 @@ bool llegir_fitxer(sopa_t *s)
     return (llegir_fitxer);
 }
 
-/*Mostra la solcio de la sopa*/
-void mostrar_solucio(sopa_t *s)
-{
-
-}
-
-/*Ordena paraules de la sopa*/
+/*Ordena paraules de la sopa
 void ordenar_paraules (sopa_t *s)
 {
 
-}
-
-/*Aquesta funció llegeix les paraules que estan dins de la sopa i les mostra al usuari*/
-void mostra_paraules (sopa_t *s)
-{
-   /*Lo que sea*/
-}
-
-
-/*Comproba la sopa de lletres amb les dades introduides per l'usuari, si la paraula es correcta*/
-bool comprobar_sopa(joc_t j, sopa_t *s)
-{
-    /*Lo que sea*/
-}
+}*/
 
 /*Pregunta les dades al usuari*/
 void preguntar_jugada(joc_t *j)
@@ -103,11 +84,6 @@ bool comprobar_rendicio(char rend_arr[9])
 }
 
 
-/*Actualitza amb l'encert*/
-void actualitzar_sopa(joc_t *j, sopa_t *s)
-{
-    /*Lo quie sea*/
-}
 
 
 /* Aquesta funcio genera la sopa de lletres, a partir del fitxer i altres parametres */
