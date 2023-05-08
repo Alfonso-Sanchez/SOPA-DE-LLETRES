@@ -12,9 +12,7 @@ int main() {
 
     sopa_t sopa; 
     joc_t joc;
-    int mida_sopa;
     char rendicio_arr[9];
-    bool rendicio;
 
     saludar(); // Donem la benvingua al joc.
     if(!llegir_fitxer(&sopa))
@@ -24,25 +22,18 @@ int main() {
     else
     {
         ordenar_paraules(&sopa);
-        printf("Indica la mida de la sopa de lletres:\n");
-        scanf("%d", &mida_sopa);
-        fflush(stdin);
-        sopa.dim = mida_sopa;   // Guardem la mida dins del struct sopa.
+        pregunta_mida(&sopa);
         genera_sopa(&sopa);       
         do
         {
             mostra_sopa(&sopa);      
            /*mostra_paraules(&sopa);*/   
             mostra_menu_joc();  // Mostrem instruccions joc.
-            printf("Encerts: %d\n", sopa.n_encerts);
-            printf("Has trobat una paraula? Y / RENDICIO\n");
-            fgets (rendicio_arr, 9, stdin);
-            fflush(stdin); // Evitem que es que de malament el fgets i scanf. 
-            if(comprobar_rendicio(rendicio_arr))
-            {
-                rendicio = true;
-            }
-            else
+            mostra_paraules(sopa);
+            preguntar_usuari(sopa, rendicio_arr);
+            comprobar_rendicio(&sopa, rendicio_arr);
+
+            if (!sopa.rendicio)
             {
                 preguntar_jugada(&joc);
                 /*if (!comprobar_sopa(joc, &sopa))
@@ -56,8 +47,8 @@ int main() {
                 }
                 */
             }
-        } while ((!rendicio) && (!sopa.guanya));
-        if (rendicio)
+        } while ((!sopa.rendicio) && (!sopa.guanya));
+        if (sopa.rendicio)
         {
             /*mostrar_solucio(&sopa);*/
             printf("T'has rendit!\n");

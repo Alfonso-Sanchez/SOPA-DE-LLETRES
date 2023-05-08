@@ -76,6 +76,34 @@ void ordenar_paraules (sopa_t *s)
     
 }
 
+void pregunta_mida(sopa_t *s)
+{
+    int mida_sopa;
+
+    printf("Indica la mida de la sopa de lletres:\n");
+    scanf("%d", &mida_sopa);
+    fflush(stdin);
+    s->dim = mida_sopa; // Guardem la mida dins del struct sopa.
+}
+
+void mostra_paraules(sopa_t s)
+{
+    printf("Paraules: \n");
+    for (int i = 0; i < s.n_par; i++)
+    {
+        printf("> %s\n", s.par[i].ll);
+       
+    }
+}
+
+void preguntar_usuari(sopa_t s, char rendicio_arr[])
+{
+    printf("Encerts: %d\n", s.n_encerts); // Ver donde lo metemos !!!!!!!!!! 
+    printf("Has trobat una paraula? Y / RENDICIO\n");
+    fgets (rendicio_arr, 9, stdin);
+    fflush(stdin); // Evitem que es que de malament el fgets i scanf.
+}
+
 /*Pregunta les dades al usuari*/
 void preguntar_jugada(joc_t *j)
 {
@@ -89,20 +117,19 @@ void preguntar_jugada(joc_t *j)
 }
 
 /*Comproba si la persona se ha rendit o no*/
-bool comprobar_rendicio(char rend_arr[9])
+void comprobar_rendicio(sopa_t *s, char rend_arr[9])
 {
-    bool es_rendeix = true ;
+    s->rendicio = true ;
     char rendicio[9] = "RENDICIO";
     int i = 0;
-    while(es_rendeix && i < 9)
+    while(s->rendicio && i < 9)
     {
         if (rend_arr[i] != rendicio[i])
         {
-            es_rendeix = false;
+            s->rendicio = false;
         }
         i++;
     }
-    return (es_rendeix);
 }
 
 

@@ -21,6 +21,7 @@ typedef struct
     int n_par;  // Nombre de paraules
     int n_encerts;    // Nombre de paraules encertades
     bool guanya;
+    bool rendicio;
 } sopa_t;
 
 typedef struct 
@@ -65,7 +66,7 @@ void saludar();
 * @param sopa Estructura sopa_t
 *
 */
-void mostra_paraules(sopa_t *s);
+void mostra_paraules(sopa_t s);
 
 /** 
  * @brief Mostra instruccions per a jugar al joc.
@@ -98,11 +99,12 @@ bool comprobar_sopa(joc_t j, sopa_t *s);
 
 /** @brief Comproba si l'usuari se ha rendit o no.
 *
+* @param s Struct sopa_t.
 * @param rend_arr Array amb la posible paraula rendicio.
 * @return True = Si hi ha rendicio | False = si no hi ha rendicio.
 *
 */
-bool comprobar_rendicio(char rend_arr[9]);
+void comprobar_rendicio(sopa_t *s, char rend_arr[9]);
 
 /** @brief Actualitza la sopa amb l'encert.
 *
@@ -118,5 +120,20 @@ void actualitzar_sopa(joc_t *j, sopa_t *s);
  * @param s estructura sopa_t
  * 
 */
-
 void comprova_guanya(sopa_t *s);
+
+/** @brief Preguntar mida sopa.
+*
+* @param s Estructura sopa_t.]
+*
+*/
+void pregunta_mida(sopa_t *s);
+
+/** @brief Pregunta al usuari que vol fer.
+*
+* @param [parametro 1]
+* @param [parametro 2]
+* @return [return funcion]
+*
+*/
+void preguntar_usuari(sopa_t s, char rendicio_arr[]);
