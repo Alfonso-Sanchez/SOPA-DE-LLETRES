@@ -1,8 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
-
 #include "headers/funciones.h"
 
 #define MAX_LLETRES 8
@@ -23,13 +18,15 @@ int main() {
     {
         ordenar_paraules(&sopa);
         pregunta_mida(&sopa);
-        genera_sopa(&sopa);       
+        //genera_sopa(&sopa);
+        genera_sopa(&sopa); // solo testing, luego sera la general. 
         do
         {
-            mostra_sopa(&sopa);      
+            mostra_sopa(&sopa);
+            mostra_paraules(sopa);  
            /*mostra_paraules(&sopa);*/   
             mostra_menu_joc();  // Mostrem instruccions joc.
-            mostra_paraules(sopa);
+            
             preguntar_usuari(sopa, rendicio_arr);
             comprobar_rendicio(&sopa, rendicio_arr);
 

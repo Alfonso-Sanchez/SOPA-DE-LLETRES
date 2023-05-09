@@ -1,4 +1,8 @@
 #include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
 
 #define MAX_LLETRES 8
 #define MAX_PARAULES 10
@@ -22,6 +26,7 @@ typedef struct
     int n_encerts;    // Nombre de paraules encertades
     bool guanya;
     bool rendicio;
+
 } sopa_t;
 
 typedef struct 
@@ -47,7 +52,7 @@ void genera_sopa(sopa_t *s);
 * @param sopa Estructura sopa_t
 *
 */
-void mostra_sopa (sopa_t *s);
+void mostra_sopa(sopa_t *s);
 
 /** @brief Mostra solucio de la sopa.
 *
@@ -131,9 +136,31 @@ void pregunta_mida(sopa_t *s);
 
 /** @brief Pregunta al usuari que vol fer.
 *
-* @param [parametro 1]
-* @param [parametro 2]
-* @return [return funcion]
+* @param s Estructura sopa_t.
+* @param rendicio_arr Taula que conte el que indique el usuari (Y / RENDICIO)
+* 
 *
 */
 void preguntar_usuari(sopa_t s, char rendicio_arr[]);
+
+/** @brief Comproba si la paraula entra en la posicio i direccio indicada i si no hi ha una paraula en eixa posicio.
+*
+* @param fila (E) fila de posicio. 
+* @param columna (E) columna de posicio.
+* @param direccio (E) Direccio a comprobar.
+* @param s (E) Estructura sopa_t.
+* @return True - Si la posicio es correcta.
+* @return False - Si la posicio es incorrecta.
+*
+*/
+bool comprobar_posicio(int fila, int columna, int direccio, int paraula_actual, sopa_t s);
+
+/** @brief Introdueix la paraula dins de la sopa. 
+*
+* @param fila (E) Fila de posicio.
+* @param columna (E) Columna de posicio
+* @param direccio (E) Direccio de introduccio.
+* @param s (E/S) Estructura sopa_t.
+*
+*/
+void introduir_paraula(int fila, int columna, int direccio, int paraula_actual, sopa_t *s);

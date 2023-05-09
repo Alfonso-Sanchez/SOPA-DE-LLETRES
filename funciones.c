@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
 #include "headers/funciones.h"
 
 /*Mostra el missatge de benvingua al joc*/
@@ -119,67 +115,182 @@ void preguntar_jugada(joc_t *j)
 /*Comproba si la persona se ha rendit o no*/
 void comprobar_rendicio(sopa_t *s, char rend_arr[9])
 {
-    s->rendicio = true ;
-    char rendicio[9] = "RENDICIO";
-    int i = 0;
-    while(s->rendicio && i < 9)
+    s->rendicio = false;
+    if(strcmp(rend_arr, "RENDICIO") == 0)
     {
-        if (rend_arr[i] != rendicio[i])
-        {
-            s->rendicio = false;
-        }
-        i++;
+        s->rendicio = true;
     }
 }
 
+bool comprobar_posicio(int fila, int columna, int direccio, int paraula_actual, sopa_t s)
+{
+    int longitud_paraula = strlen(s.par[paraula_actual].ll);
+    int i;
+    bool incorrecte = false;
+    switch (direccio)  
+    {
+    case 0: // (→)
+        i = 0;
+        while (!incorrecte && i <= longitud_paraula )
+        {
+            if ((columna + i) > s.dim)
+            {
+                incorrecte = true;
+            }
 
+            if (s.lletres[fila + (columna + i) * s.dim] >= 'A' && s.lletres[fila + (columna + i) * s.dim] <= 'Z')
+            {
+                incorrecte = true;
+            }
+            i ++;
+        }
+        break;
+    
+    case 1: // (←)
+        i = 0;
+        while (!incorrecte && i <= longitud_paraula )
+        {
+            if ((columna - i) < 0)
+            {
+                incorrecte = true;
+            }
 
+            if (s.lletres[fila + (columna - i) * s.dim] >= 'A' && s.lletres[fila + (columna - i) * s.dim] <= 'Z')
+            {
+                incorrecte = true;
+            }
+            i ++;
+        }
+        break;
 
-/* Aquesta funcio genera la sopa de lletres, a partir del fitxer i altres parametres */
-/* que ja decidireu. En aquest cas només l'emplena amb una SOPA d'EXEMPLE, es a dir */
-/* que haureu de fer la vostra pròpia. */
+    case 2: // (↓)
+        i = 0;
+        while (!incorrecte && i <= longitud_paraula)
+        {
+            if ((fila + i) > s.dim)
+            {
+                incorrecte = true;
+            }
+
+            if (s.lletres[(fila + i) + columna * s.dim] >= 'A' && s.lletres[(fila + i) + columna * s.dim] <= 'Z')
+            {
+                incorrecte = true;
+            }
+            i ++;
+        }
+        break;
+
+    case 3: // (↑)
+        i = 0;
+        while (!incorrecte && i <= longitud_paraula)
+        {
+            if ((fila - i) < 0)
+            {
+                incorrecte = true;
+            }
+
+            if (s.lletres[(fila - i) + columna * s.dim] >= 'A' && s.lletres[(fila - i) + columna * s.dim] <= 'Z')
+            {
+                incorrecte = true;
+            }
+            i ++;
+        }
+        break;
+    }
+    
+    return incorrecte;
+}
+
+void introduir_paraula(int fila, int columna, int direccio, int paraula_actual, sopa_t *s)
+{
+    int longitud_paraula = strlen(s->par[paraula_actual].ll);
+
+    switch (direccio)  
+    {
+    case 0: // (→)
+        for (int i = 0; i < longitud_paraula; i++)
+        {
+            s->lletres[fila + (columna + i) * s->dim] = s->par[paraula_actual].ll[i];
+            s->encertades[fila + (columna + i) * s->dim] = true;
+        }
+        break;
+    
+    case 1: // (←)
+        for (int i = 0; i < longitud_paraula; i++)
+        {
+            s->lletres[fila + (columna - i) * s->dim] = s->par[paraula_actual].ll[i];
+            s->encertades[fila + (columna - i) * s->dim] = true;
+        }
+        break;
+
+    case 2: // (↓)
+        for (int i = 0; i < longitud_paraula; i++)
+        {
+            s->lletres[(fila + i) + columna * s->dim] = s->par[paraula_actual].ll[i];
+            s->encertades[(fila + i) + columna * s->dim] = true;
+        }
+        break;
+
+    case 3: // (↑)
+        for (int i = 0; i < longitud_paraula; i++)
+        {
+            s->lletres[(fila - i) + columna * s->dim] = s->par[paraula_actual].ll[i];
+            s->encertades[(fila - i) + columna * s->dim] = true;
+        }
+        break;
+    }
+}
+
 void genera_sopa(sopa_t *s)
 {
-    s->dim = 30;    // Mida màxima: 40 x 40
-    s->lletres = malloc(s->dim * s->dim * sizeof(char));   // Espai per a les lletres
-    s->encertades = malloc(s->dim * s->dim * sizeof(char)); // Per saber si una lletra correspon a encert
-    for (int i = 0; i < s->dim * s->dim; i++)
+    /**
+     * 1. Posar les paraules aleatoriament
+     *  1.1 Mirar si la paraula entra en la direcció aleatoria, y posició aleatoria.
+     *  1.2 Si no entra, tornar a generar una direcció aleatoria y posició aleatoria.
+     * 2. Comprobar que estan totes les paraules y que no chafa a ninguna paraula anterior.
+     * 3. Rellenar tots els buits amb lletres mayuscules aleatories.
+     */
+    int fila, columna, direccio;
+    // Reserve el espai necesari.
+    s->lletres = malloc(s->dim * s->dim * sizeof(char));
+    s->encertades = malloc(s->dim * s->dim * sizeof(char));
+    srand(time(NULL));
+
+    // Generem per cada paraula posicions aleatories.
+    for (int i = 0; i < s->n_par; i++)
     {
-        s->encertades[i] = false;
-        // Generem una lletra aleatoriament
-        s->lletres[i] = 'A' + (rand() % ('Z'-'A' + 1));
+        fila = rand()%s->dim;
+        columna = rand()%s->dim;
+        direccio = rand()%4;
+        /*
+            1.1 Mirar si la paraula entra en la direcció aleatoria, y posició aleatoria.
+            1.2 Si no entra, tornar a generar una direcció aleatoria y posició aleatoria.
+         2. Comprobar que estan totes les paraules y que no chafa a ninguna paraula anterior. */
+
+        while (comprobar_posicio(fila, columna, direccio, i, *s))
+        {
+            fila = rand()%s->dim;
+            columna = rand()%s->dim;
+            direccio = rand()%4;
+        }
+        introduir_paraula(fila, columna, direccio, i, s);
     }
 
-    s->n_par = 5;
-    strcpy(s->par[0].ll, "ALZINA");
-    strcpy(s->par[1].ll, "ARBUST");
-    strcpy(s->par[2].ll, "BOLET");
-    strcpy(s->par[3].ll, "CAMI");
-    strcpy(s->par[4].ll, "PEDRA");
+    // Rellenar tots el huecos amb lletres aleatories. 
+    for (int i = 0; i < s->dim * s->dim; i++)
+    {
+        // Inicialitzem totes les lletres com false.
+        // Generem una lletra aleatoriament si la posicio on es vol posar esta buida.
+        if (!(s->lletres[i] >= 'A' && s->lletres[i] <= 'Z'))
+        {
+            s->encertades[i] = false;
+            s->lletres[i] = 'A' + (rand() % ('Z'-'A' + 1));
+        }
+    }
 
-    s->n_encerts = 2;
-    s->par[0].enc = false;
-    s->par[1].enc = true;
-    s->par[2].enc = true;
-    s->par[3].enc = false;
-    s->par[4].enc = false;
-
-    // Ara posem un parell de paraules a la sopa com si s'haguessin encertat
-    s->lletres[5] = 'B'; s->encertades[5] = true;
-    s->lletres[6] = 'O'; s->encertades[6] = true;
-    s->lletres[7] = 'L'; s->encertades[7] = true;
-    s->lletres[8] = 'E'; s->encertades[8] = true;
-    s->lletres[9] = 'T'; s->encertades[9] = true;
-
-    s->lletres[65 + s->dim] = 'A'; s->encertades[65 + s->dim] = true;
-    s->lletres[65 + 2 * s->dim] = 'R'; s->encertades[65 + 2 * s->dim] = true;
-    s->lletres[65 + 3 * s->dim] = 'B'; s->encertades[65 + 3 * s->dim] = true;
-    s->lletres[65 + 4 * s->dim] = 'U'; s->encertades[65 + 4 * s->dim] = true;
-    s->lletres[65 + 5 * s->dim] = 'S'; s->encertades[65 + 5 * s->dim] = true;
-    s->lletres[65 + 6 * s->dim] = 'T'; s->encertades[65 + 6 * s->dim] = true;
-    
+    // Inicialitzer variables necesaries:
+    s->n_encerts = 0;
 }
-
 
 /* Mostra la sopa de lletres pel terminal */
 /* En principi, NO HAURIEU DE MODIFICAR AQUEST CODI SI NO TOQUEU LES ESTRUCTURES DE DADES*/
@@ -231,13 +342,6 @@ void mostra_sopa (sopa_t *s)
         printf("\n");
     }
     printf("\n");
-
     printf("Portes %d encerts.\n", s->n_encerts);
-    printf("Paraules a trobar: %d\n", s->n_par - s->n_encerts);
-    for (int i = 0; i < s->n_par; i++)
-    {
-        if (!s->par[i].enc)
-            printf("%s\n", s->par[i].ll);
-    }
 
 }
