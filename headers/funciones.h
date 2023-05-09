@@ -13,6 +13,9 @@
 typedef struct 
 {
     char ll[MAX_LLETRES + 1];   // Lletres de la paraula (comptem centinella)
+    int columna;
+    int fila;
+    int direccio;
     bool enc;   // La paraula s'ha encertat
 } paraula_t;
 
@@ -24,7 +27,8 @@ typedef struct
     paraula_t par[MAX_PARAULES];    // Les paraules
     int n_par;  // Nombre de paraules
     int n_encerts;    // Nombre de paraules encertades
-    bool guanya;
+    int long_paraula_max; //Longitud de la paraula mes gran.
+    bool guanya; //
     bool rendicio;
 
 } sopa_t;
@@ -52,15 +56,23 @@ void genera_sopa(sopa_t *s);
 * @param sopa Estructura sopa_t
 *
 */
+
 void mostra_sopa(sopa_t *s);
+
+/** @brief Calcula la paraula amb la mida maxima.
+*
+* @param s (E/S) Struct sopa_t.n]
+*
+*/
+void calcular_mida_maxima(sopa_t *s);
 
 /** @brief Mostra solucio de la sopa.
 *
 * @param sopa Estructura sopa_t.
 *
 */
-
 void mostrar_solucio(sopa_t *s);
+
 /**
  *  @brief Da la benvinguda al jugador.
 */
@@ -133,6 +145,15 @@ void comprova_guanya(sopa_t *s);
 *
 */
 void pregunta_mida(sopa_t *s);
+
+/** @brief Comproba que la mida siga superior o igual a la longitud maxima de entre totes les paraules.
+*
+* @param s (E) Estruct sopa_t.
+* @return true - La mida es correcta.
+* @return false - La mida es incorrecta.
+*
+*/
+bool comprobar_mida(sopa_t s, int mida);
 
 /** @brief Pregunta al usuari que vol fer.
 *

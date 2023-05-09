@@ -40,8 +40,24 @@ bool llegir_fitxer(sopa_t *s)
             i ++;
         }
         s->n_par = i;
+        calcular_mida_maxima(s);
     }
     return (llegir_fitxer);
+}
+
+void calcular_mida_maxima(sopa_t *s)
+{
+    int max = 0;
+    int mida_actual;
+    for (int i = 0; i <= s->n_par; i++)
+    {
+        mida_actual = strlen(s->par[i].ll);
+        if (mida_actual > max)
+        {
+            max = strlen(s->par[i].ll);
+        }
+    }
+    s->long_paraula_max = max;
 }
 
 /*Ordena paraules de la sopa*/
@@ -76,12 +92,27 @@ void pregunta_mida(sopa_t *s)
 {
     int mida_sopa;
 
-    printf("Indica la mida de la sopa de lletres:\n");
-    scanf("%d", &mida_sopa);
+    do
+    {
+        printf("Segons les paraules en el arxiu, la mida minima es %d\n", s->long_paraula_max);
+        printf("Indica la mida de la sopa de lletres:\n");
+        scanf("%d", &mida_sopa);
+        
+    } while (comprobar_mida(*s, mida_sopa));
     fflush(stdin);
     s->dim = mida_sopa; // Guardem la mida dins del struct sopa.
 }
 
+bool comprobar_mida(sopa_t s, int mida)
+{
+    bool correcte = false;
+    if (mida < s.long_paraula_max)
+    {
+        correcte = true;
+    }
+
+    return correcte;
+}
 void mostra_paraules(sopa_t s)
 {
     printf("Paraules: \n");
@@ -211,7 +242,7 @@ void introduir_paraula(int fila, int columna, int direccio, int paraula_actual, 
         for (int i = 0; i < longitud_paraula; i++)
         {
             s->lletres[fila + (columna + i) * s->dim] = s->par[paraula_actual].ll[i];
-            s->encertades[fila + (columna + i) * s->dim] = true;
+            s->encertades[fila + (columna + i) * s->dim] = false;
         }
         break;
     
@@ -219,7 +250,7 @@ void introduir_paraula(int fila, int columna, int direccio, int paraula_actual, 
         for (int i = 0; i < longitud_paraula; i++)
         {
             s->lletres[fila + (columna - i) * s->dim] = s->par[paraula_actual].ll[i];
-            s->encertades[fila + (columna - i) * s->dim] = true;
+            s->encertades[fila + (columna - i) * s->dim] = false;
         }
         break;
 
@@ -227,7 +258,7 @@ void introduir_paraula(int fila, int columna, int direccio, int paraula_actual, 
         for (int i = 0; i < longitud_paraula; i++)
         {
             s->lletres[(fila + i) + columna * s->dim] = s->par[paraula_actual].ll[i];
-            s->encertades[(fila + i) + columna * s->dim] = true;
+            s->encertades[(fila + i) + columna * s->dim] = false;
         }
         break;
 
@@ -235,7 +266,7 @@ void introduir_paraula(int fila, int columna, int direccio, int paraula_actual, 
         for (int i = 0; i < longitud_paraula; i++)
         {
             s->lletres[(fila - i) + columna * s->dim] = s->par[paraula_actual].ll[i];
-            s->encertades[(fila - i) + columna * s->dim] = true;
+            s->encertades[(fila - i) + columna * s->dim] = false;
         }
         break;
     }
@@ -274,6 +305,10 @@ void genera_sopa(sopa_t *s)
             direccio = rand()%4;
         }
         introduir_paraula(fila, columna, direccio, i, s);
+        // Guardem la informacio al struct.
+        s->par[i].columna = columna;
+        s->par[i].fila = fila;
+        s->par[i].direccio = direccio;
     }
 
     // Rellenar tots el huecos amb lletres aleatories. 
