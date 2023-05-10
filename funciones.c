@@ -5,7 +5,7 @@ void saludar()
 {
     printf("***********************************************************\n");
     printf("Us donem la benvinguda al joc de la sopa de lletres!\n");
-    printf("Autors: Joan Arnau, Alex ... , Alfonso Sanchez\n");
+    printf("Autors: Joan Arnau, Alex Caparros, Alfonso Sanchez\n");
     printf("***********************************************************\n");
 }
 
@@ -276,9 +276,9 @@ void genera_sopa(sopa_t *s)
 {
     /**
      * 1. Posar les paraules aleatoriament
-     *  1.1 Mirar si la paraula entra en la direcció aleatoria, y posició aleatoria.
-     *  1.2 Si no entra, tornar a generar una direcció aleatoria y posició aleatoria.
-     * 2. Comprobar que estan totes les paraules y que no chafa a ninguna paraula anterior.
+     *  1.1 Mirar si la paraula entra en la direcció aleatoria, y posició aleatoria y no chafa ninguna paraula anterior.
+     *  1.2 Si no entra, tornar a generar una direcció aleatoria y posició aleatoria, tornar a 1.1.
+     * 2. Introduir la paraula en la posicio i direcció que si es pot posar.
      * 3. Rellenar tots els buits amb lletres mayuscules aleatories.
      */
     int fila, columna, direccio;
@@ -327,6 +327,41 @@ void genera_sopa(sopa_t *s)
     s->n_encerts = 0;
 }
 
+void cambiar_encertat_sopa(int fila, int columna, int direccio, int num_paraula, sopa_t *s, bool cambiar)
+{
+    int longitud_paraula = strlen(s->par[num_paraula].ll);
+
+    switch (direccio)  
+    {
+    case 0: // (→)
+        for (int i = 0; i < longitud_paraula; i++)
+        {
+            s->encertades[fila + (columna + i) * s->dim] = cambiar;
+        }
+        break;
+    
+    case 1: // (←)
+        for (int i = 0; i < longitud_paraula; i++)
+        {
+            s->encertades[fila + (columna - i) * s->dim] = cambiar;
+        }
+        break;
+
+    case 2: // (↓)
+        for (int i = 0; i < longitud_paraula; i++)
+        {
+            s->encertades[(fila + i) + columna * s->dim] = cambiar;
+        }
+        break;
+
+    case 3: // (↑)
+        for (int i = 0; i < longitud_paraula; i++)
+        {
+            s->encertades[(fila - i) + columna * s->dim] = cambiar;
+        }
+        break;
+    }
+}
 /* Mostra la sopa de lletres pel terminal */
 /* En principi, NO HAURIEU DE MODIFICAR AQUEST CODI SI NO TOQUEU LES ESTRUCTURES DE DADES*/
 void mostra_sopa (sopa_t *s)

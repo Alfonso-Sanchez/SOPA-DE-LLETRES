@@ -185,3 +185,15 @@ bool comprobar_posicio(int fila, int columna, int direccio, int paraula_actual, 
 *
 */
 void introduir_paraula(int fila, int columna, int direccio, int paraula_actual, sopa_t *s);
+
+/** @brief Cambia la paraula, si vols que estigue encertada o no.
+*
+* @param fila (E) Fila de posicio.
+* @param columna (E) Columna de posicio.
+* @param direccio (E) Direccio de la paraula.
+* @param num_paraula (E) Numero de la paraula que volem cambiar.
+* @param s (E/S) Estructura sopa_t.
+* @param cambiar (E) Bool - True (Encertada) | False (No encertada)
+*
+*/
+void cambiar_encertat_sopa(int fila, int columna, int direccio, int num_paraula, sopa_t *s, bool cambiar);
