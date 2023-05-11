@@ -6,6 +6,8 @@
 
 #define MAX_LLETRES 8
 #define MAX_PARAULES 10
+#define MIN_SOPA 10
+#define MAX_SOPA 40
 
 /* Definicio del tipus per a desar les dades de la sopa de lletres */
 /* Es una proposta que podeu canviar, ampliar, etc. */
@@ -16,6 +18,7 @@ typedef struct
     int columna;
     int fila;
     int direccio;
+    int longitud;
     bool enc;   // La paraula s'ha encertat
 } paraula_t;
 
@@ -27,7 +30,6 @@ typedef struct
     paraula_t par[MAX_PARAULES];    // Les paraules
     int n_par;  // Nombre de paraules
     int n_encerts;    // Nombre de paraules encertades
-    int long_paraula_max; //Longitud de la paraula mes gran.
     bool guanya; //
     bool rendicio;
 
@@ -42,12 +44,12 @@ typedef struct
 
 /** @brief Pregunta jugda i la guarda en el struct joc.
 *
-* @param j struct joc.
+* @param j (E/S) Struct joc.
 */
 void preguntar_jugada(joc_t *j);
 
 /** @brief Genera la sopa de lletres a partir del tamany indicat i les paraules ja carregades.
-* @param sopa Estructura sopa_t
+* @param sopa (E/S) Estructura sopa_t
 */
 void genera_sopa(sopa_t *s);
 
@@ -71,19 +73,19 @@ void calcular_mida_maxima(sopa_t *s);
 * @param sopa Estructura sopa_t.
 *
 */
-void mostrar_solucio(sopa_t *s);
+void mostra_solucio(sopa_t *s);
 
 /**
  *  @brief Da la benvinguda al jugador.
 */
 void saludar();
 
-/** @brief Muestra les paraules que conte la sopa de lletres.
+/** @brief Mostra informació de la sopa (Paraules i nombre de encerts).
 *
 * @param sopa Estructura sopa_t
 *
 */
-void mostra_paraules(sopa_t s);
+void mostrar_informacio_sopa(sopa_t s);
 
 /** 
  * @brief Mostra instruccions per a jugar al joc.
@@ -112,7 +114,7 @@ void ordenar_paraules (sopa_t *s);
 * @param col Numero columna.
 * @return true = encertat | false = no encertat.
 */
-bool comprobar_sopa(joc_t j, sopa_t *s);
+bool comprobar_sopa(joc_t j, sopa_t s, int *p);
 
 /** @brief Comproba si l'usuari se ha rendit o no.
 *
@@ -125,12 +127,12 @@ void comprobar_rendicio(sopa_t *s, char rend_arr[9]);
 
 /** @brief Actualitza la sopa amb l'encert.
 *
-* @param fil fila on comença la paraula.
-* @param col col on comença la paraula.
-* @param s  Estructura sopa_t. 
+* @param j (E) Estructura joc_t.
+* @param s (E/S) Estructura sopa_t. 
+* @param p (E) Num paraula a actualitzar.
 *
 */
-void actualitzar_sopa(joc_t *j, sopa_t *s);
+void actualitzar_sopa(joc_t j, sopa_t *s, int p);
 
 /** @brief Comrprovem si ha guanyat
  * 
@@ -153,7 +155,7 @@ void pregunta_mida(sopa_t *s);
 * @return false - La mida es incorrecta.
 *
 */
-bool comprobar_mida(sopa_t s, int mida);
+bool comprobar_mida(int mida);
 
 /** @brief Pregunta al usuari que vol fer.
 *
@@ -197,3 +199,10 @@ void introduir_paraula(int fila, int columna, int direccio, int paraula_actual, 
 *
 */
 void cambiar_encertat_sopa(int fila, int columna, int direccio, int num_paraula, sopa_t *s, bool cambiar);
+
+/** @brief Calcula la longitud de cada paraula.
+*
+* @param s (E/S) struct sopa_t.
+*
+*/
+void calcular_longitud_paraules(sopa_t *s);
