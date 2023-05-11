@@ -49,7 +49,8 @@ int main() {
         }
         if (sopa.guanya)
         {
-            printf("!!!!!!!! ENHORABONA HA GUANYAT !!!!!!!!\n");
+            mostra_sopa(&sopa); // Mostra la sopa resultant
+            printf("\n\n!!!!!!!! ENHORABONA HAS GUANYAT !!!!!!!!\n");
         }
     }
     return 0;

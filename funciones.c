@@ -70,7 +70,6 @@ void ordenar_paraules (sopa_t *s)
         }
         
     }
-    
 }
 
 void calcular_longitud_paraules(sopa_t *s)
@@ -171,7 +170,6 @@ void preguntar_jugada(joc_t *j)
     j->columna --;
     j->fila --;
 }
-
 /*Comproba si la persona se ha rendit o no*/
 void comprobar_rendicio(sopa_t *s, char resposta_usuari[9])
 {
@@ -185,21 +183,21 @@ void comprobar_rendicio(sopa_t *s, char resposta_usuari[9])
 bool comprobar_posicio(int fila, int columna, int direccio, int paraula_actual, sopa_t s)
 {
     int i;
-    bool incorrecte = false;
+    bool correcte = true;
     switch (direccio)  
     {
     case 0: // (→)
         i = 0;
-        while (!incorrecte && i <= s.par[paraula_actual].longitud)
+        while (correcte && i <= s.par[paraula_actual].longitud)
         {
             if ((fila + i) > s.dim)
             {
-                incorrecte = true;
+                correcte = false;
             }
 
             if (s.lletres[(fila + i) + columna * s.dim] >= 'A' && s.lletres[(fila + i) + columna * s.dim] <= 'Z')
             {
-                incorrecte = true;
+                correcte = false;
             }
             i ++;
         }
@@ -207,16 +205,16 @@ bool comprobar_posicio(int fila, int columna, int direccio, int paraula_actual, 
     
     case 1: // (←)
         i = 0;
-        while (!incorrecte && i <= s.par[paraula_actual].longitud)
+        while (correcte && i <= s.par[paraula_actual].longitud)
         {
             if ((fila - i) < 0)
             {
-                incorrecte = true;
+                correcte = false;
             }
 
             if (s.lletres[(fila - i) + columna * s.dim] >= 'A' && s.lletres[(fila - i) + columna * s.dim] <= 'Z')
             {
-                incorrecte = true;
+                correcte = false;
             }
             i ++;
         }
@@ -224,16 +222,16 @@ bool comprobar_posicio(int fila, int columna, int direccio, int paraula_actual, 
 
     case 2: // (↓)
         i = 0;
-        while (!incorrecte && i <= s.par[paraula_actual].longitud)
+        while (correcte && i <= s.par[paraula_actual].longitud)
         {
             if ((columna + i) > s.dim)
             {
-                incorrecte = true;
+                correcte = false;
             }
 
             if (s.lletres[fila + (columna + i) * s.dim] >= 'A' && s.lletres[fila + (columna + i) * s.dim] <= 'Z')
             {
-                incorrecte = true;
+                correcte = false;
             }
             i ++;
         }
@@ -241,23 +239,23 @@ bool comprobar_posicio(int fila, int columna, int direccio, int paraula_actual, 
 
     case 3: // (↑)
         i = 0;
-        while (!incorrecte && i <= s.par[paraula_actual].longitud)
+        while (correcte && i <= s.par[paraula_actual].longitud)
         {
             if ((columna - i) < 0)
             {
-                incorrecte = true;
+                correcte = false;
             }
 
             if (s.lletres[fila + (columna - i) * s.dim] >= 'A' && s.lletres[fila + (columna - i) * s.dim] <= 'Z')
             {
-                incorrecte = true;
+                correcte = false;
             }
             i ++;
         }
         break;
     }
     
-    return incorrecte;
+    return correcte;
 }
 
 void introduir_paraula(int fila, int columna, int direccio, int paraula_actual, sopa_t *s)
@@ -341,7 +339,7 @@ void genera_sopa(sopa_t *s)
             1.2 Si no entra, tornar a generar una direcció aleatoria y posició aleatoria.
          2. Comprobar que estan totes les paraules y que no chafa a ninguna paraula anterior. */
 
-        while (comprobar_posicio(fila, columna, direccio, i, *s))
+        while (!comprobar_posicio(fila, columna, direccio, i, *s))
         {
             fila = rand()%s->dim;
             columna = rand()%s->dim;
@@ -368,6 +366,8 @@ void genera_sopa(sopa_t *s)
     {
         s->par[i].enc = false;
     }
+    s->guanya = false;
+    s->rendicio = false;
 }
 
 void cambiar_encertat_sopa(int fila, int columna, int direccio, int num_paraula, sopa_t *s, bool cambiar)

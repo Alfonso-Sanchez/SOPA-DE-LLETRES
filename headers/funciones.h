@@ -55,10 +55,9 @@ void genera_sopa(sopa_t *s);
 
 /** @brief Mostra la sopa de lletres generada en sopa_t.
 *
-* @param sopa Estructura sopa_t
+* @param sopa (E/S) Estructura sopa_t
 *
 */
-
 void mostra_sopa(sopa_t *s);
 
 /** @brief Calcula la paraula amb la mida maxima.
@@ -70,7 +69,7 @@ void calcular_mida_maxima(sopa_t *s);
 
 /** @brief Mostra solucio de la sopa.
 *
-* @param sopa Estructura sopa_t.
+* @param sopa (E/S) Estructura sopa_t.
 *
 */
 void mostra_solucio(sopa_t *s);
@@ -82,7 +81,7 @@ void saludar();
 
 /** @brief Mostra informació de la sopa (Paraules i nombre de encerts).
 *
-* @param sopa Estructura sopa_t
+* @param sopa (E) Estructura sopa_t
 *
 */
 void mostrar_informacio_sopa(sopa_t s);
@@ -94,8 +93,7 @@ void mostra_menu_joc();
 
 /** @brief Lee palabras de un archivo.
 *
-* @param f Archiu a llegir.
-* @param sopa Estructura sopa_t.
+* @param sopa (E/S) Estructura sopa_t.
 * @return Retorna true = si va tot be | false = si algo va mal.
 *
 */
@@ -103,27 +101,29 @@ bool llegir_fitxer(sopa_t *s);
 
 /** @brief Ordena les paraules de la sopa.
 *
-* @param sopa Struct sopa_t.
+* @param sopa (E/S) Struct sopa_t.
 *
 */
 void ordenar_paraules (sopa_t *s);
 
 /** @brief Comproba la sopa de lletres.
 *
-* @param fil Numero fila.
-* @param col Numero columna.
+* @param fil (E) Numero fila.
+* @param col (E) Numero columna.
+* @param s (E) struct sopa_t.
+* @param p (S) paraula trobada (si hi ha).
 * @return true = encertat | false = no encertat.
 */
 bool comprobar_sopa(joc_t j, sopa_t s, int *p);
 
 /** @brief Comproba si l'usuari se ha rendit o no.
 *
-* @param s Struct sopa_t.
-* @param rend_arr Array amb la posible paraula rendicio.
+* @param s (E/s) Struct sopa_t.
+* @param resposta_usuari (E) Taula amb la posible paraula rendicio.
 * @return True = Si hi ha rendicio | False = si no hi ha rendicio.
 *
 */
-void comprobar_rendicio(sopa_t *s, char rend_arr[9]);
+void comprobar_rendicio(sopa_t *s, char resposta_usuari[9]);
 
 /** @brief Actualitza la sopa amb l'encert.
 *
@@ -134,16 +134,16 @@ void comprobar_rendicio(sopa_t *s, char rend_arr[9]);
 */
 void actualitzar_sopa(joc_t j, sopa_t *s, int p);
 
-/** @brief Comrprovem si ha guanyat
+/** @brief Comprovem si ha guanyat
  * 
- * @param s estructura sopa_t
+ * @param s (E/S) estructura sopa_t
  * 
 */
 void comprova_guanya(sopa_t *s);
 
 /** @brief Preguntar mida sopa.
 *
-* @param s Estructura sopa_t.]
+* @param s (E/S) Estructura sopa_t.
 *
 */
 void pregunta_mida(sopa_t *s);
@@ -159,11 +159,11 @@ bool comprobar_mida(int mida);
 
 /** @brief Pregunta al usuari que vol fer.
 *
-* @param rendicio_arr Taula que conte el que indique el usuari (Y / RENDICIO)
+* @param resposta_usuari (E/S) Taula que conte el que indique el usuari (Y / RENDICIO)
 * 
 *
 */
-void preguntar_usuari(char rendicio_arr[]);
+void preguntar_usuari(char resposta_usuari[]);
 
 /** @brief Comproba si la paraula entra en la posicio i direccio indicada i si no hi ha una paraula en eixa posicio.
 *
