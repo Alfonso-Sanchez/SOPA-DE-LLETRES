@@ -60,13 +60,6 @@ void genera_sopa(sopa_t *s);
 */
 void mostra_sopa(sopa_t *s);
 
-/** @brief Calcula la paraula amb la mida maxima.
-*
-* @param s (E/S) Struct sopa_t.n]
-*
-*/
-void calcular_mida_maxima(sopa_t *s);
-
 /** @brief Mostra solucio de la sopa.
 *
 * @param sopa (E/S) Estructura sopa_t.

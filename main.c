@@ -2,7 +2,7 @@
 
 int main() {
 
-    sopa_t sopa; 
+    sopa_t sopa;
     joc_t joc;
     char resposta_usuari[9];
     int paraula_trobada;
@@ -17,12 +17,12 @@ int main() {
         ordenar_paraules(&sopa);
         calcular_longitud_paraules(&sopa);
         pregunta_mida(&sopa);
-        genera_sopa(&sopa); 
+        genera_sopa(&sopa);
         do
         {
             mostra_sopa(&sopa);
-            mostrar_informacio_sopa(sopa);   
-            mostra_menu_joc(); 
+            mostrar_informacio_sopa(sopa);
+            mostra_menu_joc();
             preguntar_usuari(resposta_usuari);
             comprobar_rendicio(&sopa, resposta_usuari);
 
