@@ -4,7 +4,7 @@ int main() {
 
     sopa_t sopa; 
     joc_t joc;
-    char rendicio_arr[9];
+    char resposta_usuari[9];
     int paraula_trobada;
 
     saludar(); // Donem la benvingua al joc.
@@ -23,8 +23,8 @@ int main() {
             mostra_sopa(&sopa);
             mostrar_informacio_sopa(sopa);   
             mostra_menu_joc(); 
-            preguntar_usuari(sopa, rendicio_arr);
-            comprobar_rendicio(&sopa, rendicio_arr);
+            preguntar_usuari(resposta_usuari);
+            comprobar_rendicio(&sopa, resposta_usuari);
 
             if (!sopa.rendicio)
             {
@@ -46,6 +46,10 @@ int main() {
         {
             mostra_solucio(&sopa);
             printf("T'has rendit!\n");
+        }
+        if (sopa.guanya)
+        {
+            printf("!!!!!!!! ENHORABONA HA GUANYAT !!!!!!!!\n");
         }
     }
     return 0;

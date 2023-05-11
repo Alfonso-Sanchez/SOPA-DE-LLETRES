@@ -159,12 +159,11 @@ bool comprobar_mida(int mida);
 
 /** @brief Pregunta al usuari que vol fer.
 *
-* @param s Estructura sopa_t.
 * @param rendicio_arr Taula que conte el que indique el usuari (Y / RENDICIO)
 * 
 *
 */
-void preguntar_usuari(sopa_t s, char rendicio_arr[]);
+void preguntar_usuari(char rendicio_arr[]);
 
 /** @brief Comproba si la paraula entra en la posicio i direccio indicada i si no hi ha una paraula en eixa posicio.
 *

@@ -3,19 +3,19 @@
 /*Mostra el missatge de benvingua al joc*/
 void saludar()
 {
-    printf("***********************************************************\n");
+    printf("***********************************************************\n\n");
     printf("Us donem la benvinguda al joc de la sopa de lletres!\n");
-    printf("Autors: Joan Arnau, Alex Caparros, Alfonso Sanchez\n");
+    printf("Autors: Joan Arnau, Alex Caparros, Alfonso Sanchez\n\n");
     printf("***********************************************************\n");
 }
 
 /*Mostra el missatge dins del joc amb instruccions de com jugar*/
 void mostra_menu_joc()
 {
-    printf("*************************** INSTRUCCIONS ********************************\n");
+    printf("*************************** INSTRUCCIONS ************************************************\n");
     printf("Per jugar tens que indicar, la fila, la columna i la direcció 1 (→) -1 (←) 2 (↓) -2 (↑).\n");
-    printf("Si vols rendirte escriu \"RENDICIO\" en la següent pregunta!");
-    printf("***********************************************************\n");
+    printf("Si vols rendirte escriu \"RENDICIO\" en la següent pregunta!\n");
+    printf("*****************************************************************************************\n");
 }
 
 /* Aquesta funcio llegeix les paraules dun fitzer i las carrega dins de paraula_t dins de sopa_t*/
@@ -110,7 +110,7 @@ bool comprobar_mida(int mida)
 }
 void mostrar_informacio_sopa(sopa_t s)
 {
-    printf("Paraules: \n");
+    printf(">> Paraules: \n");
     for (int i = 0; i < s.n_par; i++)
     {
         if (!s.par[i].enc)
@@ -119,14 +119,13 @@ void mostrar_informacio_sopa(sopa_t s)
         }
     }
     printf("\n");
-    printf("Portes %d encerts.\n", s.n_encerts);
+    printf(">> Portes %d encerts.\n\n", s.n_encerts);
 }
 
-void preguntar_usuari(sopa_t s, char rendicio_arr[])
+void preguntar_usuari(char resposta_usuari[])
 {
-    printf("Encerts: %d\n", s.n_encerts); // Ver donde lo metemos !!!!!!!!!! 
     printf("Has trobat una paraula? Y / RENDICIO\n");
-    fgets (rendicio_arr, 9, stdin);
+    fgets (resposta_usuari, 9, stdin);
     fflush(stdin); // Evitem que es que de malament el fgets i scanf.
 }
 
@@ -174,10 +173,10 @@ void preguntar_jugada(joc_t *j)
 }
 
 /*Comproba si la persona se ha rendit o no*/
-void comprobar_rendicio(sopa_t *s, char rend_arr[9])
+void comprobar_rendicio(sopa_t *s, char resposta_usuari[9])
 {
     s->rendicio = false;
-    if(strcmp(rend_arr, "RENDICIO") == 0)
+    if(strcmp(resposta_usuari, "RENDICIO") == 0)
     {
         s->rendicio = true;
     }
