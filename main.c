@@ -36,7 +36,7 @@ int main() {
                 else
                 {
                     actualitzar_sopa(joc, &sopa, paraula_trobada);
-                    comprovar_guanya(&sopa);  
+                    comprova_guanya(&sopa);  
                 }
                 
             }
