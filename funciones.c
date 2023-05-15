@@ -316,13 +316,6 @@ void introduir_paraula(int fila, int columna, int direccio, int paraula_actual, 
 
 void genera_sopa(sopa_t *s)
 {
-    /**
-     * 1. Posar les paraules aleatoriament
-     *  1.1 Mirar si la paraula entra en la direcció aleatoria, y posició aleatoria y no chafa ninguna paraula anterior.
-     *  1.2 Si no entra, tornar a generar una direcció aleatoria y posició aleatoria, tornar a 1.1.
-     * 2. Introduir la paraula en la posicio i direcció que si es pot posar.
-     * 3. Rellenar tots els buits amb lletres mayuscules aleatories.
-     */
     // Reserve el espai necesari.
     s->lletres = malloc(s->dim * s->dim * sizeof(char));
     s->encertades = malloc(s->dim * s->dim * sizeof(char));
@@ -334,11 +327,7 @@ void genera_sopa(sopa_t *s)
         fila = rand()%s->dim;
         columna = rand()%s->dim;
         direccio = rand()%4;
-        /*
-            1.1 Mirar si la paraula entra en la direcció aleatoria, y posició aleatoria.
-            1.2 Si no entra, tornar a generar una direcció aleatoria y posició aleatoria.
-         2. Comprobar que estan totes les paraules y que no chafa a ninguna paraula anterior. */
-
+        // Comprovem la posicio.
         while (!comprobar_posicio(fila, columna, direccio, i, *s))
         {
             fila = rand()%s->dim;
@@ -348,11 +337,9 @@ void genera_sopa(sopa_t *s)
         introduir_paraula(fila, columna, direccio, i, s);
     }
 
-    // Rellenar tots el huecos amb lletres aleatories. 
+    // Rellenar tots el buits amb lletres aleatories. 
     for (int i = 0; i < s->dim * s->dim; i++)
     {
-        // Inicialitzem totes les lletres com false.
-        // Generem una lletra aleatoriament si la posicio on es vol posar esta buida.
         if (!(s->lletres[i] >= 'A' && s->lletres[i] <= 'Z'))
         {
             s->encertades[i] = false;
