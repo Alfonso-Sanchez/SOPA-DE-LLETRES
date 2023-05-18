@@ -101,7 +101,7 @@ void guardar_mida(sopa_t *s, int mida)
     s->dim = mida;
 }
 
-bool comprobar_mida(int mida)
+bool es_mida_correcta(int mida)
 {
     bool es_mida_correcta = false;
     if (mida >= MIN_SOPA && mida <= MAX_SOPA)

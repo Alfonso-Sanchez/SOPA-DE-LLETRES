@@ -173,7 +173,7 @@ void pregunta_i_guarda_mida(sopa_t *s);
 * @return false - La mida es incorrecta.
 *
 */
-bool comprobar_mida(int mida);
+bool es_mida_correcta(int mida);
 
 /** @brief Guarda la mida de la sopa.
 *
