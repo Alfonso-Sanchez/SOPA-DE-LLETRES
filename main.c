@@ -16,29 +16,29 @@ int main() {
     {
         ordenar_paraules(&sopa);
         calcular_longitud_paraules(&sopa);
-        pregunta_mida(&sopa);
+        pregunta_i_guarda_mida(&sopa);
         genera_sopa(&sopa);
+        inicialitzar_variables_inicials(&sopa);
         do
         {
             mostra_sopa(&sopa);
             mostrar_informacio_sopa(sopa);
             mostra_menu_joc();
             preguntar_usuari(resposta_usuari);
-            comprobar_rendicio(&sopa, resposta_usuari);
-
+            es_rendicio(&sopa, resposta_usuari);
             if (!sopa.rendicio)
             {
                 preguntar_jugada(&joc);
-                if (!comprobar_sopa(joc, sopa, &paraula_trobada))
+                ajustar_jugada(&joc);
+                if (es_sopa_correcta(joc, sopa, &paraula_trobada))
                 {
-                    printf("No es correcte! \n");
+                    actualitzar_sopa(joc, &sopa, paraula_trobada);
+                    es_guanya(&sopa);
                 }
                 else
                 {
-                    actualitzar_sopa(joc, &sopa, paraula_trobada);
-                    comprova_guanya(&sopa);  
+                     printf("No es correcte! \n");
                 }
-                
             }
 
         } while ((!sopa.rendicio) && (!sopa.guanya));

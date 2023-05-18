@@ -5,7 +5,7 @@ void saludar()
 {
     printf("***********************************************************\n\n");
     printf("Us donem la benvinguda al joc de la sopa de lletres!\n");
-    printf("Autors: Joan Arnau, Alex Caparros, Alfonso Sanchez\n\n");
+    printf("Autors: Joan Arnau, Alfonso Sanchez\n\n");
     printf("***********************************************************\n");
 }
 
@@ -23,12 +23,12 @@ bool llegir_fitxer(sopa_t *s)
 {
     FILE *fitxer;
     char paraula [MAX_LLETRES + 1];
-    bool llegir_fitxer = true;
+    bool fitxer_valid = true;
     int i;
 
     if ((fitxer = fopen("PARAULES.txt", "r")) == NULL)
     {
-        llegir_fitxer = false;
+        fitxer_valid = false;
     }
     else
     {
@@ -41,7 +41,7 @@ bool llegir_fitxer(sopa_t *s)
         }
         s->n_par = i;
     }
-    return (llegir_fitxer);
+    return (fitxer_valid);
 }
 
 
@@ -50,22 +50,22 @@ void ordenar_paraules (sopa_t *s)
 {
     //int longitud = sizeof(s->par)/sizeof(s->par[0]);
     char temporal[MAX_LLETRES + 1];
-    int x, index_actual;
+    int x, paraula_actual;
 
     for (x = 0; x < s->n_par; x++)
     {
-        for (index_actual = 0; index_actual < s->n_par - 1; index_actual++)
+        for (paraula_actual = 0; paraula_actual < s->n_par - 1; paraula_actual++)
         {
-            int index_seguent_element = index_actual + 1;
+            int seguent_paraula = paraula_actual + 1;
 
-            if (strcmp(s->par[index_actual].ll, s->par[index_seguent_element].ll) > 0)
+            if (strcmp(s->par[paraula_actual].ll, s->par[seguent_paraula].ll) > 0)
             {
                 // Desplaçem la cadena actual a la temporal
-                memcpy(temporal, s->par[index_actual].ll, MAX_LLETRES + 1);
+                memcpy(temporal, s->par[paraula_actual].ll, MAX_LLETRES + 1);
                 // Desplaçem al actual el seguent element.
-                memcpy(s->par[index_actual].ll, s->par[index_seguent_element].ll, MAX_LLETRES + 1);
+                memcpy(s->par[paraula_actual].ll, s->par[seguent_paraula].ll, MAX_LLETRES + 1);
                 // Y en el seguent element, el que habia en el actual, pero esta en el temporal.
-                memcpy(s->par[index_seguent_element].ll, temporal, MAX_LLETRES + 1);
+                memcpy(s->par[seguent_paraula].ll, temporal, MAX_LLETRES + 1);
             }
         }
         
@@ -81,8 +81,7 @@ void calcular_longitud_paraules(sopa_t *s)
     
 }
 
-
-void pregunta_mida(sopa_t *s)
+void pregunta_i_guarda_mida(sopa_t *s)
 {
     int mida_sopa;
 
@@ -94,27 +93,32 @@ void pregunta_mida(sopa_t *s)
         
     } while (!comprobar_mida(mida_sopa));
     fflush(stdin);
-    s->dim = mida_sopa; // Guardem la mida dins del struct sopa.
+    guardar_mida(s, mida_sopa);
+}
+
+void guardar_mida(sopa_t *s, int mida)
+{
+    s->dim = mida;
 }
 
 bool comprobar_mida(int mida)
 {
-    bool correcte = false;
+    bool es_mida_correcta = false;
     if (mida >= MIN_SOPA && mida <= MAX_SOPA)
     {
-        correcte = true;
+        es_mida_correcta = true;
     }
 
-    return correcte;
+    return es_mida_correcta;
 }
 void mostrar_informacio_sopa(sopa_t s)
 {
     printf(">> Paraules: \n");
-    for (int i = 0; i < s.n_par; i++)
+    for (int paraula = 0; paraula < s.n_par; paraula++)
     {
-        if (!s.par[i].enc)
+        if (!s.par[paraula].enc)
         {
-            printf("> %s\n", s.par[i].ll);
+            printf("> %s\n", s.par[paraula].ll);
         }
     }
     printf("\n");
@@ -124,8 +128,8 @@ void mostrar_informacio_sopa(sopa_t s)
 void preguntar_usuari(char resposta_usuari[])
 {
     printf("Has trobat una paraula? Y / RENDICIO\n");
-    fgets (resposta_usuari, 9, stdin);
     fflush(stdin); // Evitem que es que de malament el fgets i scanf.
+    fgets (resposta_usuari, 9, stdin);
 }
 
 /*Pregunta les dades al usuari*/
@@ -139,39 +143,46 @@ void preguntar_jugada(joc_t *j)
     {
         printf("Introdueix direcció: \n");
         scanf("%d", &j->direccio);
-        if (j->direccio != 1 && j->direccio != -1 && j->direccio != 2 && j->direccio != -2)
+        if (j->direccio != DIRECCIO_JUGADA_ESQUERRA_DRETA && j->direccio != DIRECCCIO_JUGADA_DRETA_ESQUERRA && j->direccio != DIRECCIO_JUGADA_CAP_ABAIX && j->direccio != DIRECCIO_JUGADA_CAP_AMUNT)
         {
             printf("Direccio incorrecta!\n");
         }
-    } while (j->direccio != 1 && j->direccio != -1 && j->direccio != 2 && j->direccio != -2);
-    fflush(stdin);  // Evitem que es que de malament el fgets i scanf.
+    } while (j->direccio != DIRECCIO_JUGADA_ESQUERRA_DRETA && j->direccio != DIRECCCIO_JUGADA_DRETA_ESQUERRA && j->direccio != DIRECCIO_JUGADA_CAP_ABAIX && j->direccio != DIRECCIO_JUGADA_CAP_AMUNT);
+}
 
-    // Ajustem la direccio a la que usa el programa.
-    switch (j->direccio)
+void ajustar_jugada(joc_t *j)
+{
+     switch (j->direccio)
     {
-    case 1:
-        j->direccio = 0;
-        break;
-    
-    case -1:
-        j->direccio = 1;
-        break;
+        case DIRECCIO_JUGADA_ESQUERRA_DRETA:
+            j->direccio = DIRECCIO_PROGRAMA_ESQUERRA_DRETA;
+            break;
+        
+        case DIRECCCIO_JUGADA_DRETA_ESQUERRA:
+            j->direccio = DIRECCCIO_PROGRAMA_DRETA_ESQUERRA;
+            break;
 
-    case 2:
-        j->direccio = 2;
-        break;
+        case DIRECCIO_JUGADA_CAP_AMUNT:
+            j->direccio = DIRECCIO_PROGRAMA_CAP_AMUNT;
+            break;
 
-    case -2:
-        j->direccio = 3;
-        break;
+        case DIRECCIO_JUGADA_CAP_ABAIX:
+            j->direccio = DIRECCIO_PROGRAMA_CAP_ABAIX;
+            break;
     
     }
     // Ajustem fila i col.
     j->columna --;
     j->fila --;
+    // Ajustem la fila i col a com esta en el programa
+    int aux = 0;
+    aux = j->columna;
+    j->columna = j->fila;
+    j->fila = aux;
+
 }
 /*Comproba si la persona se ha rendit o no*/
-void comprobar_rendicio(sopa_t *s, char resposta_usuari[9])
+void es_rendicio(sopa_t *s, char resposta_usuari[9])
 {
     s->rendicio = false;
     if(strcmp(resposta_usuari, "RENDICIO") == 0)
@@ -180,138 +191,104 @@ void comprobar_rendicio(sopa_t *s, char resposta_usuari[9])
     }
 }
 
-bool comprobar_posicio(int fila, int columna, int direccio, int paraula_actual, sopa_t s)
+bool es_pot_introduir_paraula(int fila, int columna, int direccio, int paraula_actual, sopa_t s)
 {
-    int i;
-    bool correcte = true;
+    int posicio;
+    bool es_pot_introduir_paraula = true;
     switch (direccio)  
     {
-    case 0: // (→)
-        i = 0;
-        while (correcte && i <= s.par[paraula_actual].longitud)
-        {
-            if ((fila + i) > s.dim)
+        case DIRECCIO_PROGRAMA_ESQUERRA_DRETA: // (→)
+            posicio = 0;
+            while (es_pot_introduir_paraula && posicio <= s.par[paraula_actual].longitud)
             {
-                correcte = false;
+                if (((fila + posicio) > s.dim) || (s.lletres[(fila + posicio) + columna * s.dim] >= 'A' && s.lletres[(fila + posicio) + columna * s.dim] <= 'Z'))
+                {
+                    es_pot_introduir_paraula = false;
+                }
+                posicio ++;
             }
+            break;
+        
+        case DIRECCCIO_PROGRAMA_DRETA_ESQUERRA: // (←)
+            posicio = 0;
+            while (es_pot_introduir_paraula && posicio <= s.par[paraula_actual].longitud)
+            {
+                if (((fila - posicio) < 0) || (s.lletres[(fila - posicio) + columna * s.dim] >= 'A' && s.lletres[(fila - posicio) + columna * s.dim] <= 'Z'))
+                {
+                    es_pot_introduir_paraula = false;
+                }
+                posicio ++;
+            }
+            break;
 
-            if (s.lletres[(fila + i) + columna * s.dim] >= 'A' && s.lletres[(fila + i) + columna * s.dim] <= 'Z')
+        case DIRECCIO_PROGRAMA_CAP_ABAIX: // (↓)
+            posicio = 0;
+            while (es_pot_introduir_paraula && posicio <= s.par[paraula_actual].longitud)
             {
-                correcte = false;
+                if (((columna + posicio) > s.dim) || (s.lletres[fila + (columna + posicio) * s.dim] >= 'A' && s.lletres[fila + (columna + posicio) * s.dim] <= 'Z'))
+                {
+                    es_pot_introduir_paraula = false;
+                }
+                posicio ++;
             }
-            i ++;
-        }
-        break;
-    
-    case 1: // (←)
-        i = 0;
-        while (correcte && i <= s.par[paraula_actual].longitud)
-        {
-            if ((fila - i) < 0)
-            {
-                correcte = false;
-            }
+            break;
 
-            if (s.lletres[(fila - i) + columna * s.dim] >= 'A' && s.lletres[(fila - i) + columna * s.dim] <= 'Z')
+        case DIRECCIO_PROGRAMA_CAP_AMUNT: // (↑)
+            posicio = 0;
+            while (es_pot_introduir_paraula && posicio <= s.par[paraula_actual].longitud)
             {
-                correcte = false;
+                if (((columna - posicio) < 0) || (s.lletres[fila + (columna - posicio) * s.dim] >= 'A' && s.lletres[fila + (columna - posicio) * s.dim] <= 'Z'))
+                {
+                    es_pot_introduir_paraula = false;
+                }
+                posicio ++;
             }
-            i ++;
-        }
-        break;
-
-    case 2: // (↓)
-        i = 0;
-        while (correcte && i <= s.par[paraula_actual].longitud)
-        {
-            if ((columna + i) > s.dim)
-            {
-                correcte = false;
-            }
-
-            if (s.lletres[fila + (columna + i) * s.dim] >= 'A' && s.lletres[fila + (columna + i) * s.dim] <= 'Z')
-            {
-                correcte = false;
-            }
-            i ++;
-        }
-        break;
-
-    case 3: // (↑)
-        i = 0;
-        while (correcte && i <= s.par[paraula_actual].longitud)
-        {
-            if ((columna - i) < 0)
-            {
-                correcte = false;
-            }
-
-            if (s.lletres[fila + (columna - i) * s.dim] >= 'A' && s.lletres[fila + (columna - i) * s.dim] <= 'Z')
-            {
-                correcte = false;
-            }
-            i ++;
-        }
-        break;
+            break;
     }
     
-    return correcte;
+    return es_pot_introduir_paraula;
 }
 
 void introduir_paraula(int fila, int columna, int direccio, int paraula_actual, sopa_t *s)
 {
     switch (direccio)  
     {
-    case 0: // (→)
-        for (int i = 0; i < s->par[paraula_actual].longitud; i++)
-        {
-            s->lletres[(fila + i) + columna * s->dim] = s->par[paraula_actual].ll[i];
-            s->encertades[(fila + i) + columna * s->dim] = false;
+        case DIRECCIO_PROGRAMA_ESQUERRA_DRETA: // (→)
+            for (int i = 0; i < s->par[paraula_actual].longitud; i++)
+            {
+                s->lletres[(fila + i) + columna * s->dim] = s->par[paraula_actual].ll[i];
+                s->encertades[(fila + i) + columna * s->dim] = false;
+            }
+            break;
+        
+        case DIRECCCIO_PROGRAMA_DRETA_ESQUERRA: // (←)
+            for (int i = 0; i < s->par[paraula_actual].longitud; i++)
+            {
+                s->lletres[(fila - i) + columna * s->dim] = s->par[paraula_actual].ll[i];
+                s->encertades[(fila - i) + columna * s->dim] = false;
+            }
+            break;
 
-            // Afegim la informació al struct.
-            s->par[paraula_actual].fila = columna;
-            s->par[paraula_actual].columna = fila;
-            s->par[paraula_actual].direccio = 0;
-        }
-        break;
-    
-    case 1: // (←)
-        for (int i = 0; i < s->par[paraula_actual].longitud; i++)
-        {
-            s->lletres[(fila - i) + columna * s->dim] = s->par[paraula_actual].ll[i];
-            s->encertades[(fila - i) + columna * s->dim] = false;
+        case DIRECCIO_PROGRAMA_CAP_ABAIX: // (↓)
+            for (int i = 0; i < s->par[paraula_actual].longitud; i++)
+            {
+                s->lletres[fila + (columna + i) * s->dim] = s->par[paraula_actual].ll[i];
+                s->encertades[fila + (columna + i) * s->dim] = false;
+            }
+            break;
 
-            // Afegim la informació al struct.
-            s->par[paraula_actual].fila = columna;
-            s->par[paraula_actual].columna = fila;
-            s->par[paraula_actual].direccio = 1;
-        }
-        break;
-
-    case 2: // (↓)
-        for (int i = 0; i < s->par[paraula_actual].longitud; i++)
-        {
-            s->lletres[fila + (columna + i) * s->dim] = s->par[paraula_actual].ll[i];
-            s->encertades[fila + (columna + i) * s->dim] = false;
-            // Afegim la informació al struct.
-            s->par[paraula_actual].fila = columna;
-            s->par[paraula_actual].columna = fila;
-            s->par[paraula_actual].direccio = 2;
-        }
-        break;
-
-    case 3: // (↑)
-        for (int i = 0; i < s->par[paraula_actual].longitud; i++)
-        {
-            s->lletres[fila + (columna - i) * s->dim] = s->par[paraula_actual].ll[i];
-            s->encertades[fila + (columna - i) * s->dim] = false;
-            // Afegim la informació al struct.
-            s->par[paraula_actual].fila = columna;
-            s->par[paraula_actual].columna = fila;
-            s->par[paraula_actual].direccio = 3;
-        }
-        break;
+        case DIRECCIO_PROGRAMA_CAP_AMUNT: // (↑)
+            for (int i = 0; i < s->par[paraula_actual].longitud; i++)
+            {
+                s->lletres[fila + (columna - i) * s->dim] = s->par[paraula_actual].ll[i];
+                s->encertades[fila + (columna - i) * s->dim] = false;
+            }
+            break;
     }
+    // Afegim la informació al struct.
+    s->par[paraula_actual].fila = fila;
+    s->par[paraula_actual].columna = columna;
+    s->par[paraula_actual].direccio = direccio;
 }
 
 void genera_sopa(sopa_t *s)
@@ -328,7 +305,7 @@ void genera_sopa(sopa_t *s)
         columna = rand()%s->dim;
         direccio = rand()%4;
         // Comprovem la posicio.
-        while (!comprobar_posicio(fila, columna, direccio, i, *s))
+        while (!es_pot_introduir_paraula(fila, columna, direccio, i, *s))
         {
             fila = rand()%s->dim;
             columna = rand()%s->dim;
@@ -346,8 +323,10 @@ void genera_sopa(sopa_t *s)
             s->lletres[i] = 'A' + (rand() % ('Z'-'A' + 1));
         }
     }
+}
 
-    // Inicialitzer variables necesaries:
+void inicialitzar_variables_inicials(sopa_t *s)
+{
     s->n_encerts = 0;
     for (int i = 0; i < s->n_par; i++)
     {
@@ -359,36 +338,33 @@ void genera_sopa(sopa_t *s)
 
 void cambiar_encertat_sopa(int fila, int columna, int direccio, int num_paraula, sopa_t *s, bool cambiar)
 {
-    int fila_correcta, columna_correcta; // Intercambiem les variables fila i colum per que siguen correctes.
-    fila_correcta = columna;
-    columna_correcta = fila;
     switch (direccio)  
     {
-    case 0: // (→)
+    case DIRECCIO_PROGRAMA_ESQUERRA_DRETA: // (→)
         for (int i = 0; i < s->par[num_paraula].longitud; i++)
         {
-            s->encertades[(fila_correcta + i) + columna_correcta * s->dim] = cambiar;
+            s->encertades[(fila + i) + columna * s->dim] = cambiar;
         }
         break;
     
-    case 1: // (←)
+    case DIRECCCIO_PROGRAMA_DRETA_ESQUERRA: // (←)
         for (int i = 0; i < s->par[num_paraula].longitud; i++)
         {
-            s->encertades[(fila_correcta - i) + columna_correcta * s->dim] = cambiar;
+            s->encertades[(fila - i) + columna * s->dim] = cambiar;
         }
         break;
 
-    case 2: // (↓)
+    case DIRECCIO_PROGRAMA_CAP_ABAIX: // (↓)
         for (int i = 0; i < s->par[num_paraula].longitud; i++)
         {
-            s->encertades[fila_correcta + (columna_correcta + i) * s->dim] = cambiar;
+            s->encertades[fila + (columna + i) * s->dim] = cambiar;
         }
         break;
 
-    case 3: // (↑)
+    case DIRECCIO_PROGRAMA_CAP_AMUNT: // (↑)
         for (int i = 0; i < s->par[num_paraula].longitud; i++)
         {
-            s->encertades[fila_correcta + (columna_correcta - i) * s->dim] = cambiar;
+            s->encertades[fila + (columna - i) * s->dim] = cambiar;
         }
         break;
     }
@@ -457,18 +433,18 @@ void mostra_solucio(sopa_t *s)
     mostra_sopa(s);
 }
 
-bool comprobar_sopa(joc_t j, sopa_t s, int *p)
+bool es_sopa_correcta(joc_t j, sopa_t s, int *p)
 {
-    bool correcte = false;
+    bool es_correcte = false;
     for (int i = 0; i < s.n_par; i++)
     {
         if ((j.fila == s.par[i].fila) && (j.columna == s.par[i].columna) && (j.direccio == s.par[i].direccio))
         {
-           correcte = true;
+           es_correcte = true;
            *p = i; // Retornem la paraula trobada.
         }
     }
-    return correcte;
+    return es_correcte;
 }
 
 void actualitzar_sopa(joc_t j, sopa_t *s, int p)
@@ -479,7 +455,7 @@ void actualitzar_sopa(joc_t j, sopa_t *s, int p)
     s->par[p].enc = true;
 }
 
-void comprova_guanya(sopa_t *s)
+void es_guanya(sopa_t *s)
 {
     if (s->n_encerts == s->n_par)
     {

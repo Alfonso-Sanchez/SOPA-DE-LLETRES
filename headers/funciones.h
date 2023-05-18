@@ -9,6 +9,17 @@
 #define MIN_SOPA 10
 #define MAX_SOPA 40
 
+#define DIRECCIO_JUGADA_ESQUERRA_DRETA 1
+#define DIRECCCIO_JUGADA_DRETA_ESQUERRA -1
+#define DIRECCIO_JUGADA_CAP_ABAIX 2
+#define DIRECCIO_JUGADA_CAP_AMUNT -2
+
+#define DIRECCIO_PROGRAMA_ESQUERRA_DRETA 0
+#define DIRECCCIO_PROGRAMA_DRETA_ESQUERRA 1
+#define DIRECCIO_PROGRAMA_CAP_ABAIX 2
+#define DIRECCIO_PROGRAMA_CAP_AMUNT 3
+
+
 /* Definicio del tipus per a desar les dades de la sopa de lletres */
 /* Es una proposta que podeu canviar, ampliar, etc. */
 
@@ -48,10 +59,24 @@ typedef struct
 */
 void preguntar_jugada(joc_t *j);
 
+/** @brief Ajusta la jugada per el programa
+*
+* @param j (E/S) Struct joc_t.
+*
+*/
+void ajustar_jugada(joc_t *j);
+
 /** @brief Genera la sopa de lletres a partir del tamany indicat i les paraules ja carregades.
 * @param sopa (E/S) Estructura sopa_t
 */
 void genera_sopa(sopa_t *s);
+
+/** @brief  Inicialitza les variables de la sopa
+*
+* @param s (E/S) Struct sopa_t.
+*
+*/
+void inicialitzar_variables_inicials(sopa_t *s);
 
 /** @brief Mostra la sopa de lletres generada en sopa_t.
 *
@@ -107,7 +132,7 @@ void ordenar_paraules (sopa_t *s);
 * @param p (S) paraula trobada (si hi ha).
 * @return true = encertat | false = no encertat.
 */
-bool comprobar_sopa(joc_t j, sopa_t s, int *p);
+bool es_sopa_correcta(joc_t j, sopa_t s, int *p);
 
 /** @brief Comproba si l'usuari se ha rendit o no.
 *
@@ -116,7 +141,7 @@ bool comprobar_sopa(joc_t j, sopa_t s, int *p);
 * @return True = Si hi ha rendicio | False = si no hi ha rendicio.
 *
 */
-void comprobar_rendicio(sopa_t *s, char resposta_usuari[9]);
+void es_rendicio(sopa_t *s, char resposta_usuari[9]);
 
 /** @brief Actualitza la sopa amb l'encert.
 *
@@ -132,14 +157,14 @@ void actualitzar_sopa(joc_t j, sopa_t *s, int p);
  * @param s (E/S) estructura sopa_t
  * 
 */
-void comprova_guanya(sopa_t *s);
+void es_guanya(sopa_t *s);
 
-/** @brief Preguntar mida sopa.
+/** @brief Preguntar mida sopa i la guarda en el stuct.
 *
 * @param s (E/S) Estructura sopa_t.
 *
 */
-void pregunta_mida(sopa_t *s);
+void pregunta_i_guarda_mida(sopa_t *s);
 
 /** @brief Comproba que la mida siga superior o igual a la longitud maxima de entre totes les paraules.
 *
@@ -149,6 +174,14 @@ void pregunta_mida(sopa_t *s);
 *
 */
 bool comprobar_mida(int mida);
+
+/** @brief Guarda la mida de la sopa.
+*
+* @param s (E/S) struct sopa_t.
+* @param mida (E) mida a guardar.
+*
+*/
+void guardar_mida(sopa_t *s, int mida);
 
 /** @brief Pregunta al usuari que vol fer.
 *
@@ -168,7 +201,7 @@ void preguntar_usuari(char resposta_usuari[]);
 * @return False - Si la posicio es incorrecta.
 *
 */
-bool comprobar_posicio(int fila, int columna, int direccio, int paraula_actual, sopa_t s);
+bool es_pot_introduir_paraula(int fila, int columna, int direccio, int paraula_actual, sopa_t s);
 
 /** @brief Introdueix la paraula dins de la sopa. 
 *
