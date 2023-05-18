@@ -433,7 +433,7 @@ void mostra_solucio(sopa_t *s)
     mostra_sopa(s);
 }
 
-bool es_sopa_correcta(joc_t j, sopa_t s, int *p)
+bool es_paraula_correcta(joc_t j, sopa_t s, int *p)
 {
     bool es_correcte = false;
     for (int i = 0; i < s.n_par; i++)

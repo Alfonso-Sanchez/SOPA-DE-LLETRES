@@ -30,7 +30,7 @@ int main() {
             {
                 preguntar_jugada(&joc);
                 ajustar_jugada(&joc);
-                if (es_sopa_correcta(joc, sopa, &paraula_trobada))
+                if (es_paraula_correcta(joc, sopa, &paraula_trobada))
                 {
                     actualitzar_sopa(joc, &sopa, paraula_trobada);
                     es_guanya(&sopa);

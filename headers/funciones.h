@@ -132,7 +132,7 @@ void ordenar_paraules (sopa_t *s);
 * @param p (S) paraula trobada (si hi ha).
 * @return true = encertat | false = no encertat.
 */
-bool es_sopa_correcta(joc_t j, sopa_t s, int *p);
+bool es_paraula_correcta(joc_t j, sopa_t s, int *p);
 
 /** @brief Comproba si l'usuari se ha rendit o no.
 *
