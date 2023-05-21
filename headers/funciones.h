@@ -57,7 +57,7 @@ typedef struct
 *
 * @param j (E/S) Struct joc.
 */
-void preguntar_jugada(joc_t *j);
+void preguntar_jugada(joc_t *j, sopa_t s);
 
 /** @brief Ajusta la jugada per el programa
 *

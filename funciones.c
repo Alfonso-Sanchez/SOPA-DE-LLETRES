@@ -91,7 +91,7 @@ void pregunta_i_guarda_mida(sopa_t *s)
         printf("Indica la mida de la sopa de lletres:\n");
         scanf("%d", &mida_sopa);
         
-    } while (!comprobar_mida(mida_sopa));
+    } while (!es_mida_correcta(mida_sopa));
     fflush(stdin);
     guardar_mida(s, mida_sopa);
 }
@@ -133,12 +133,20 @@ void preguntar_usuari(char resposta_usuari[])
 }
 
 /*Pregunta les dades al usuari*/
-void preguntar_jugada(joc_t *j)
+void preguntar_jugada(joc_t *j, sopa_t s)
 {
-    printf("Introdueix fila: \n");
-    scanf("%d", &j->fila);
-    printf("Introdueix col: \n");
-    scanf("%d", &j->columna);
+    do
+    {
+        printf("Introdueix fila: \n");
+        scanf("%d", &j->fila);
+    } while (j->fila <= 0 && j->fila >= s.dim);
+    
+    do
+    {
+        printf("Introdueix col: \n");
+        scanf("%d", &j->columna);
+    } while (j->columna <= 0 && j->columna >= s.dim);
+
     do
     {
         printf("Introdueix direcció: \n");

@@ -28,7 +28,7 @@ int main() {
             es_rendicio(&sopa, resposta_usuari);
             if (!sopa.rendicio)
             {
-                preguntar_jugada(&joc);
+                preguntar_jugada(&joc, sopa);
                 ajustar_jugada(&joc);
                 if (es_paraula_correcta(joc, sopa, &paraula_trobada))
                 {
