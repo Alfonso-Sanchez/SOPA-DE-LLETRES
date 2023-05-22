@@ -190,7 +190,7 @@ void ajustar_jugada(joc_t *j)
 
 }
 /*Comproba si la persona se ha rendit o no*/
-bool hi_ha_rendicio(sopa_t *s, char resposta_usuari[9])
+bool hi_ha_rendicio(char resposta_usuari[9])
 {
     bool hi_ha_rendicio = false;
    
@@ -198,8 +198,6 @@ bool hi_ha_rendicio(sopa_t *s, char resposta_usuari[9])
     {
         hi_ha_rendicio = true;
     }
-
-    s->rendicio = hi_ha_rendicio;
 
     return hi_ha_rendicio;
 }
