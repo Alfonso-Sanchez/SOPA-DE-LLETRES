@@ -25,8 +25,7 @@ int main() {
             mostrar_informacio_sopa(sopa);
             mostra_menu_joc();
             preguntar_usuari(resposta_usuari);
-            es_rendicio(&sopa, resposta_usuari);
-            if (!sopa.rendicio)
+            if (!hi_ha_rendicio(&sopa, resposta_usuari))
             {
                 preguntar_jugada(&joc, sopa);
                 ajustar_jugada(&joc);

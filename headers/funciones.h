@@ -141,7 +141,7 @@ bool es_paraula_correcta(joc_t j, sopa_t s, int *p);
 * @return True = Si hi ha rendicio | False = si no hi ha rendicio.
 *
 */
-void es_rendicio(sopa_t *s, char resposta_usuari[9]);
+bool hi_ha_rendicio(sopa_t *s, char resposta_usuari[9]);
 
 /** @brief Actualitza la sopa amb l'encert.
 *

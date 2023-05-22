@@ -190,13 +190,18 @@ void ajustar_jugada(joc_t *j)
 
 }
 /*Comproba si la persona se ha rendit o no*/
-void es_rendicio(sopa_t *s, char resposta_usuari[9])
+bool hi_ha_rendicio(sopa_t *s, char resposta_usuari[9])
 {
-    s->rendicio = false;
+    bool hi_ha_rendicio = false;
+   
     if(strcmp(resposta_usuari, "RENDICIO") == 0)
     {
-        s->rendicio = true;
+        hi_ha_rendicio = true;
     }
+
+    s->rendicio = hi_ha_rendicio;
+
+    return hi_ha_rendicio;
 }
 
 bool es_pot_introduir_paraula(int fila, int columna, int direccio, int paraula_actual, sopa_t s)
